@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+
+{% block Title %}Info{% endblock Title %}
+
+{% block content %}
+
+    {% for page in pages %}
+        <a class="btn btn-success mt-3" href="{% url 'follow' page.id %}">Follow</a>
+        <h1 class="text-primary mt-5" style="text-align: center;">Info page '{{ username }}'</h1>
+
+        <h1 class="text-dark">> Username: {{ page.username }}</h1>
+        <h1 class="text-dark">> Name: {{ page.Name }}</h1>
+        <h1 class="text-dark">> Website: {{ page.Website }}</h1>
+        <h1 class="text-dark">> Bio: {{ page.Bio }}</h1>
+        <h1 class="text-dark">> Followings: {{ page.Followings.count }}</h1>
+        <h1 class="text-dark">> Followers: {{ page.followers.count }}</h1>
+        <h1 class="text-dark">> Posts: {{ posts.count }}</h1>
+        <br><br>
+        <h2 class="text-dark">> My_Username: {{ user }}</h2>
+    {% endfor %}
+
+{% endblock content %}

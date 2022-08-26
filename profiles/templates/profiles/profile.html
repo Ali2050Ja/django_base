@@ -1,0 +1,38 @@
+{% extends '_base.html' %}
+
+{% block Title %}Profile{% endblock Title %}
+
+{% block content %}
+    <h1>> Count Followers : {{ request.user.followers.count }} | lists :</h1>
+    {% for follower in request.user.followers.all %}
+        {{ follower }} -
+    {% endfor %}
+
+    <h1>> Count Followings : {{ request.user.Followings.count }} | lists :</h1>
+    {% for following in request.user.Followings.all %}
+        {{ following }} -
+    {% endfor %}
+
+    <h1>> Count Posts : {{ posts.count }} | lists :</h1>
+    {% for following in posts %}
+        caption: {{ following.caption }} -
+        image: {{ following.image.url }}<br>
+    {% endfor %}
+    <h2>--------------------------------------</h2>
+    {% for prof in profile %}
+        {% if user.Name %}
+            <h1>name: {{ user.Name }}</h1>
+        {% else %}
+            <h1>name: ---</h1>
+        {% endif %}
+        <h1>website: {{ prof.Website }}</h1>
+        <h1>Bio: {{ prof.Bio }}</h1>
+        <h1>username: {{ prof.username }}</h1>
+        <h1>email: {{ prof.email }}</h1>
+        <h1>id(pk): {{ prof.id }}</h1>
+        <h1>id(pk): {{ user.Name }}</h1>
+        <h1>id(pk): {{ user.is_authenticated }}</h1>
+    {% endfor %}
+
+
+{% endblock content %}

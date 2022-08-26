@@ -1,0 +1,20 @@
+{% extends '_base.html' %}
+
+{% block Title %}Home{% endblock Title %}
+
+{% block content %}
+    <h1 class="text-dark">Home</h1>
+    <a class="btn btn-success" href="{% url 'dashboard' user %}">Profile</a>
+
+    <div class="card container mt-2" style="width: 25rem;">
+        test
+        <img src="https://th.bing.com/th/id/OIP.TqbClASN-Gaz72Nc87o61QHaH8?w=167&h=180&c=7&r=0&o=5&pid=1.7" class="card-img-top mt-2" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+
+{% endblock content %}
