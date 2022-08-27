@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block Title %}Add new post{% endblock Title %}
+
+{% block content %}
+    <div class="container contact-form" style="position: absolute; top: 20%;">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h2 style="text-align: center;" class="text-dark">Drop Us a Message</h2>
+            <div class="row">
+                <div class="col-md-6 container">
+                    <div class="col-md-16 container">
+                        {{ form|crispy }}
+                        <input type="submit" class="btn btn-success btnContact mt-3" value="Submit"/>
+                    </div>
+                </div>
+        </form>
+    </div>
+{% endblock content %}

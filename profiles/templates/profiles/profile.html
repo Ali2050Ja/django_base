@@ -1,38 +1,164 @@
 {% extends '_base.html' %}
 
+{% load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
 {% block Title %}Profile{% endblock Title %}
 
+{#{% block content %}#}
+{#    <h1>> Count Followers : {{ request.user.followers.count }} | lists :</h1>#}
+{#    {% for follower in request.user.followers.all %}#}
+{#        {{ follower }} -#}
+{#    {% endfor %}#}
+{##}
+{#    <h1>> Count Followings : {{ request.user.Followings.count }} | lists :</h1>#}
+{#    {% for following in request.user.Followings.all %}#}
+{#        >> {{ following }} - <a class="btn btn-danger" href="{% url 'unfollow' following.id %}">unfollow</a>#}
+{#    {% endfor %}#}
+{##}
+{#    <h1>> Count Posts : {{ posts.count }} | lists :</h1>#}
+{#    {% for following in posts %}#}
+{#        caption: {{ following.caption }} -#}
+{#        image: {{ following.image.url }}<br>#}
+{#    {% endfor %}#}
+{#    <h2>--------------------------------------</h2>#}
+{#    {% if user.Name %}#}
+{#        <h1>name: {{ user.Name }}</h1>#}
+{#    {% else %}#}
+{#        <h1>name: ---</h1>#}
+{#    {% endif %}#}
+{#    <h1>website: {{ user.Website }}</h1>#}
+{#    <h1>Bio: {{ user.Bio }}</h1>#}
+{#    <h1>username: {{ user.username }}</h1>#}
+{#    <h1>email: {{ user.email }}</h1>#}
+{#    <h1>id(pk): {{ user.id }}</h1>#}
+{#    <h1>Login: {{ user.is_authenticated }}</h1>#}
+{##}
+{##}
+{#{% endblock content %}#}
+
 {% block content %}
-    <h1>> Count Followers : {{ request.user.followers.count }} | lists :</h1>
-    {% for follower in request.user.followers.all %}
-        {{ follower }} -
-    {% endfor %}
+    <main id="app" class="site-main">
+        <section class="page page-profile page-">
+            <section class="page-inner">
+                <section class="page-content">
+                    <header class="profile-header pt-16 pb-16 is-flex is-justify-content-center bg-color-gray-75">
+                        <div class="vrgl-container vrgl-container-sm">
+                            <aside class="profile-header-content is-flex is-flex-direction-column is-align-items-center text-center">
+                                <div class="u-avatar u-avatar--large">
+                                    {% if user.Image %}
+                                        <a href="">
+                                            <img class="u-avatar-image"
+                                                 src="{{ user.image }}"
+                                                 alt="Katty:)">
+                                        </a>
+                                    {% else %}
+                                        <a href="">
+                                            <img class="u-avatar-image"
+                                                 src="{% static 'images/aaanul.jpg' %}"
+                                                 alt="">
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <a class="fs-20 color-gray-900 fw-900 mt-3"
+                                   href="https://virgool.io/@katty.sa">{{ user }}</a>
+                                <p class="js--linkify color-gray-800 fs-14 my-0 mw-100">{{ user.Bio }}</p>
 
-    <h1>> Count Followings : {{ request.user.Followings.count }} | lists :</h1>
-    {% for following in request.user.Followings.all %}
-        {{ following }} -
-    {% endfor %}
-
-    <h1>> Count Posts : {{ posts.count }} | lists :</h1>
-    {% for following in posts %}
-        caption: {{ following.caption }} -
-        image: {{ following.image.url }}<br>
-    {% endfor %}
-    <h2>--------------------------------------</h2>
-    {% for prof in profile %}
-        {% if user.Name %}
-            <h1>name: {{ user.Name }}</h1>
-        {% else %}
-            <h1>name: ---</h1>
-        {% endif %}
-        <h1>website: {{ prof.Website }}</h1>
-        <h1>Bio: {{ prof.Bio }}</h1>
-        <h1>username: {{ prof.username }}</h1>
-        <h1>email: {{ prof.email }}</h1>
-        <h1>id(pk): {{ prof.id }}</h1>
-        <h1>id(pk): {{ user.Name }}</h1>
-        <h1>id(pk): {{ user.is_authenticated }}</h1>
-    {% endfor %}
-
-
+                                <div class="text-black" style="background-color: #f8f9fa;">
+                                    <div class="d-flex justify-content-end text-center py-1">
+                                        <div>
+                                            <p class="mb-1 h5">{{ posts.count }}</p>
+                                            <p class="small text-muted mb-0"><b>Posts</b></p>
+                                        </div>
+                                        <div class="px-3">
+                                            <a class="text-decoration-none text-dark" href="followers/"><p
+                                                    class="mb-1 h5">{{ user.followers.count }}</p></a>
+                                            <a class="text-decoration-none" href="#"><p
+                                                    class="small text-muted mb-0">
+                                                <b>Followers</b></p></a>
+                                        </div>
+                                        <div>
+                                            <a class="text-decoration-none text-dark" href="followings/">
+                                                <p class="mb-1 h5">{{ user.Followings.count }}</p>
+                                                <p class="small text-muted mb-0"><b>Following</b></p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="btn btn-success btn-block text-dark mt-3" href="{% url 'edit' %}"><b style="font-size: 18px" class="mt-4">Edit profile</b></a>
+                            </aside>
+                        </div>
+                    </header>
+                    <nav class="com-tabs mb-50 text-center bg-color-gray-75">
+                        <div class="vrgl-container vrgl-container-sm">
+                            <a href="#" class="com-tabs--item ">TAGGED</a>
+                            <a href="#" class="com-tabs--item ml-24 is-active">POSTS</a>
+                        </div>
+                    </nav>
+                    <div class="vrgl-container vrgl-container-sm mt-36">
+                        <div class="feedContainer-stream">
+                            <div class="feedStream-container feedlistStream js-infinite-container">
+                                <div class="jscroll-inner">
+                                    {% if posts %}
+                                        {% for post in posts %}
+                                            <article class="streamItem">
+                                                <div class="streamItem-post">
+                                                    <div class="streamItem-coverPos">
+                                                        <a href="#"
+                                                           title="{{ post.caption }}" class="streamItem--cover">
+                                                            <img class="streamItem--img"
+                                                                 src="{{ post.image.url }}"
+                                                                 alt="{{ post.caption }}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="streamItem-postContent">
+                                                        <div class="streamItem-caption">
+                                                            <a href="#">
+                                                                <h3 class="streamItem--title"
+                                                                    dir="rtl">{{ post.caption }}</h3>
+                                                            </a>
+                                                        </div>
+                                                        <div class="streamItem-footer m-t-10">
+                                                            <div class="btn-action">
+                                                                <div class="">
+                                                                    <a href="delete/{{ post.id }}">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="26"
+                                                                             height="26" fill="currentColor"
+                                                                             class="bi bi-trash" viewBox="0 0 16 16">
+                                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                                            <path fill-rule="evenodd"
+                                                                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                                <button data-model="post" data-action-name="like"
+                                                                        data-identifier="mfhnukfzgct0"
+                                                                        class="button-like js-like ml-12 mt-10">
+                                                                    <div class="heart">
+                                                                        <svg viewBox="0 0 18 18" width="30" height="30">
+                                                                            <rect fill="#ff13dc" opacity="0"></rect>
+                                                                            <path d="M12.182,3.2545A4.00649,4.00649,0,0,0,9,5.1635a4.00649,4.00649,0,0,0-3.182-1.909A3.818,3.818,0,0,0,2,7.0725c0,3.646,7,8.273,7,8.273s7-4.578,7-8.273A3.818,3.818,0,0,0,12.182,3.2545Z"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        {% endfor %}
+                                    {% else %}
+                                        <h1 style="text-align: center; display: block; --font-weight-system-light: 300;">Posts of you</h1><br>
+                                        <p style="text-align: center">Your posts will be displayed here</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </section>
+    </main>
 {% endblock content %}

@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+
+{% block Title %}Delete Post{% endblock Title %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-danger" value="بله مطمعنم !">
+    </form>
+{% endblock content %}

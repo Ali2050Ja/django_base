@@ -1,22 +1,119 @@
 {% extends '_base.html' %}
 
+{% load static %}
+
 {% block Title %}Info{% endblock Title %}
 
 {% block content %}
+    {% for userr in pages %}
+        <main id="app" class="site-main">
+            <section class="page page-profile page-">
+                <section class="page-inner">
+                    <section class="page-content">
+                        <header class="profile-header pt-16 pb-16 is-flex is-justify-content-center bg-color-gray-75">
+                            <div class="vrgl-container vrgl-container-sm">
+                                <aside class="profile-header-content is-flex is-flex-direction-column is-align-items-center text-center">
+                                    <div class="u-avatar u-avatar--large">
+                                        {% if userr.image %}
+                                            <a href="">
+                                                <img class="u-avatar-image"
+                                                     src="{{ userr.image }}"
+                                                     alt="Katty:)">
+                                            </a>
+                                        {% else %}
+                                            <a href="">
+                                                <img class="u-avatar-image"
+                                                     src="{% static 'images/aaanul.jpg' %}"
+                                                     alt="">
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <a class="fs-20 color-gray-900 fw-900 mt-3"
+                                       href="https://virgool.io/@katty.sa">{{ userr }}</a>
+                                    <p class="js--linkify color-gray-800 fs-14 my-0 mw-100">{{ userr.Bio }}</p>
 
-    {% for page in pages %}
-        <a class="btn btn-success mt-3" href="{% url 'follow' page.id %}">Follow</a>
-        <h1 class="text-primary mt-5" style="text-align: center;">Info page '{{ username }}'</h1>
-
-        <h1 class="text-dark">> Username: {{ page.username }}</h1>
-        <h1 class="text-dark">> Name: {{ page.Name }}</h1>
-        <h1 class="text-dark">> Website: {{ page.Website }}</h1>
-        <h1 class="text-dark">> Bio: {{ page.Bio }}</h1>
-        <h1 class="text-dark">> Followings: {{ page.Followings.count }}</h1>
-        <h1 class="text-dark">> Followers: {{ page.followers.count }}</h1>
-        <h1 class="text-dark">> Posts: {{ posts.count }}</h1>
-        <br><br>
-        <h2 class="text-dark">> My_Username: {{ user }}</h2>
+                                    <div class="text-black" style="background-color: #f8f9fa;">
+                                        <div class="d-flex justify-content-end text-center py-1">
+                                            <div>
+                                                <p class="mb-1 h5">{{ posts.count }}</p>
+                                                <p class="small text-muted mb-0"><b>Posts</b></p>
+                                            </div>
+                                            <div class="px-3">
+                                                <a class="text-decoration-none text-dark" href="followers/"><p
+                                                        class="mb-1 h5">{{ userr.followers.count }}</p></a>
+                                                <a class="text-decoration-none" href="#"><p
+                                                        class="small text-muted mb-0">
+                                                    <b>Followers</b></p></a>
+                                            </div>
+                                            <div>
+                                                <a class="text-decoration-none text-dark" href="followings/">
+                                                    <p class="mb-1 h5">{{ userr.Followings.count }}</p>
+                                                    <p class="small text-muted mb-0"><b>Following</b></p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if followed %}
+                                        <a class="btn btn-block mt-2 text-light" style="font-size: 20px; background-color: #0f94e9" href="{% url 'unfollow' userr.id %}">Unfollow</a>
+                                    {% else %}
+                                        <a class="btn btn-block mt-2 text-light" style="font-size: 20px; background-color: #0f94e9" href="{% url 'follow' userr.id %}">Follow</a>
+                                    {% endif %}
+                                </aside>
+                            </div>
+                        </header>
+                        <nav class="com-tabs mb-50 text-center bg-color-gray-75">
+                            <div class="vrgl-container vrgl-container-sm">
+                                <a href="#" class="com-tabs--item ">TAGGED</a>
+                                <a href="#" class="com-tabs--item ml-24 is-active">POSTS</a>
+                            </div>
+                        </nav>
+                        <div class="vrgl-container vrgl-container-sm mt-36">
+                            <div class="feedContainer-stream">
+                                <div class="feedStream-container feedlistStream js-infinite-container">
+                                    <div class="jscroll-inner">
+                                        {% for post in posts %}
+                                            <article class="streamItem">
+                                                <div class="streamItem-post">
+                                                    <div class="streamItem-coverPos">
+                                                        <a href="#"
+                                                           title="{{ post.caption }}" class="streamItem--cover">
+                                                            <img class="streamItem--img"
+                                                                 src="{{ post.image.url }}"
+                                                                 alt="{{ post.caption }}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="streamItem-postContent">
+                                                        <div class="streamItem-caption">
+                                                            <a href="#">
+                                                                <h3 class="streamItem--title" dir="rtl">{{ post.caption }}</h3>
+                                                            </a>
+                                                        </div>
+                                                        <div class="streamItem-footer m-t-10">
+                                                            <div class="btn-action">
+                                                                <button data-model="post" data-action-name="like"
+                                                                        data-identifier="mfhnukfzgct0"
+                                                                        class="button-like js-like ml-12 mt-10">
+                                                                    <div class="heart">
+                                                                        <svg viewBox="0 0 18 18" width="26" height="26">
+                                                                            <rect fill="#ff13dc" opacity="0"></rect>
+                                                                            <path d="M12.182,3.2545A4.00649,4.00649,0,0,0,9,5.1635a4.00649,4.00649,0,0,0-3.182-1.909A3.818,3.818,0,0,0,2,7.0725c0,3.646,7,8.273,7,8.273s7-4.578,7-8.273A3.818,3.818,0,0,0,12.182,3.2545Z"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </section>
+        </main>
     {% endfor %}
 
 {% endblock content %}
